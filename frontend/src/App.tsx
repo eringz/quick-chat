@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const updateCount = () => setCount(count => count + 1);
+    const interval = setInterval(updateCount, 1000);
+    return () => clearInterval(interval)
+  }, []);
 
   return (
     <>
-      <div onClick={() => setCount(count => count + 1) }>Chat count: {count}</div>
+      <div>Chat count: {count}</div>
     </>
   )
 }

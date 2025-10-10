@@ -8,13 +8,11 @@ function App() {
   useEffect(() => {
     const updateCount = () => setCount(count => count + 1);
     const interval = setInterval(updateCount, 1000);
-    return () => clearInterval(interval)
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <>
-      <div>Chat count: {count}</div>
-    </>
+    <div>Chat Count: {count}</div>
   )
 }
 

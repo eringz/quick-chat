@@ -2,9 +2,9 @@ import User from '../models/User.js';
 import { generateToken } from '../lib/utils.js';
 import bcrypt from 'bcryptjs';
 
-export const signup = async (req, res) => 
-{   const { firstName, lastName, email, password } = req.body;
-
+export const signup = async (req, res) => {   
+    const { firstName, lastName, email, password }  = req.body;
+     
     try
     {
         /**
@@ -58,8 +58,9 @@ export const signup = async (req, res) =>
         });
 
         if (newUser) {
-            generateToken(newUser._id, res);
-            await newUser.save();
+
+            const savedUser = await newUser.save();
+            generateToken(savedUser._id, res);
 
             res.status(201).json({
                 _id: newUser._id,

@@ -115,7 +115,7 @@ const SignupPage: React.FC = () => {
 									<div className="mt-4 flex justify-center gap-4">
 										<span className="auth-badge">Free</span>
 										<span className="auth-badge">Easy Setup</span>
-										<span className="auth-badge">Private</span>
+										<span className="auth-badge">Exciting</span>
 									</div>
 								</div>
 							</div>

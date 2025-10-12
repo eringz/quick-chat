@@ -51,7 +51,7 @@ const SignupPage: React.FC = () => {
 	
 	return (
 		<div className="w-full p-4  flex items-center justify-center  bg-slate-900">
-			<div className="w-full max-w-6xl md:h-[800px] h-[650px] relative">
+			<div className="w-full max-w-6xl md:h-fit h-fit relative">
 				<BorderAnimatedContainer>
 					<div className="w-full flex flex-col md:flex-row">
 						{/** Form in left side */}

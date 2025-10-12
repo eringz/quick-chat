@@ -10,8 +10,12 @@ export default {
     extend: {
       animation: {
         'border': 'border 4s linear infinite',
+        'gradient': 'gradient 8s linear infinite',
       },
       keyframes: {
+        'gradient': {
+          to: { 'background-position': '200% center' },
+        },
         'border': {
           to: {'--border-angle': '360deg'}
         }

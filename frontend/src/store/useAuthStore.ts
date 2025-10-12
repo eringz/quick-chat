@@ -10,7 +10,6 @@ interface User {
 }
 
 interface SignupData {
-    _id: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -19,7 +18,7 @@ interface AuthState {
     authUser?: User | null;
     isCheckingAuth: boolean;
     checkAuth: () => void,
-    isSignup: boolean;
+    isSigningUp : boolean;
     signup: (data: SignupData) => Promise<void>
 }
 
@@ -27,7 +26,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
     authUser: null,
     isCheckingAuth: true,
-    isSignup: false,
+    isSigningUp : false,
 
     checkAuth: async () => {
         try {
@@ -42,18 +41,18 @@ export const useAuthStore = create<AuthState>((set) => ({
     },
 
     signup: async (data) => {
-        set({isSignup: true})
+        set({isSigningUp : true})
         try {
             const res = await axiosInstance.post('/auth/signup', data);
             set({authUser: res.data});
 
             // Let's make some Toast!
-            toast.success(`${res.data}'s account created successfully!`);
+            toast.success(`${res.data.firstName}'s account created successfully!`);
 
-        } catch (error) {
-            toast.error(`Signup Error: ${error}`);
+            } catch (error: any) {
+            toast.error(error.response?.data.message || "Sign up failed");
         } finally {
-            set({isSignup: false});
+            set({isSigningUp : false});
         }
     }
 }));

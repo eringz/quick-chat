@@ -50,11 +50,11 @@ const SignupPage: React.FC = () => {
 	];
 	
 	return (
-		<div className="w-full p-4  flex items-center justify-center  bg-slate-900">
+		<div className="w-full p-4 flex items-center justify-center  bg-slate-900">
 			<div className="w-full max-w-6xl md:h-fit h-fit relative">
 				<BorderAnimatedContainer>
 					<div className="w-full flex flex-col md:flex-row">
-						{/** Form in left side */}
+						{/** Left side panel */}
 						<div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
 							<div className="w-full max-w-md">
 								{/** Heading Text */}
@@ -94,6 +94,7 @@ const SignupPage: React.FC = () => {
 										{isSigningUp ? (<LoaderIcon className="w-full h-5 text-center animate-spin"/>) : ("Create Account")}
 									</button>
 								</form>
+								{/** if do have account */}
 								<div className="mt-6 text-center">
 									<span className="mr-2">Already have an account?</span>
 									<Link to="/login" className="auth-link">Login</Link>

@@ -85,7 +85,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
             // Let's make some toast!
             toast.success("Log in successfully!");
-        } catch (error) {
+        } catch (error: any) {
             toast.error(error.response?.data.message);
         } finally {
             set({isLoggingIn: false});

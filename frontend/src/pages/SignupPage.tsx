@@ -120,9 +120,8 @@ const SignupPage: React.FC = () => {
 									</div>
 								</div>
 							</div>
-							
-
 						</div>
+						
 					</div>
 				</BorderAnimatedContainer>
 			</div>

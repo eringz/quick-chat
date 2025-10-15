@@ -1,10 +1,17 @@
 import React, {useState } from "react";
 import { Link } from "react-router";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
-import { LockIcon, MailIcon } from "lucide-react";
+import { LoaderIcon, LockIcon, MailIcon } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore"
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({email: "", password:""});
+  const {login, isLoggingIn} = useAuthStore();
+  
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    login(formData);
+  }
 
   const inputs = [
     {
@@ -38,7 +45,7 @@ const LoginPage: React.FC = () => {
                 <p></p>
               </div>
               {/** Form */}
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {inputs.map(input => {
                   return <div>
                     <div className="relative">
@@ -53,7 +60,9 @@ const LoginPage: React.FC = () => {
                     </div>
                   </div>
                 })}
-                  <button type="submit" className="auth-btn">Log in</button>
+                  <button type="submit" className="auth-btn" disabled={isLoggingIn}>
+                    {isLoggingIn ? (<LoaderIcon />) : ("Login")}
+                  </button>
               </form>
               {/** If don't have account */}
               <div className="mt-6 text-center">
@@ -64,7 +73,21 @@ const LoginPage: React.FC = () => {
           </div>
           {/** Right Side */}
           <div className="hidden md:w-1/2 md:flex item-center justify-center p-6 bg-gradien-to-bl from-slate-800/20 via-transparent to-slate-800/20">
-
+            <div>
+              <img 
+                src="/quick-chat-logo.png"
+                alt="quick chat logo"
+                className="w-full h-auto object-contain"
+              />
+              <div className="mt-6 text-center">
+                <h3 className="text-xl font-medium text-cyan-400">Let's Chat Quick</h3>
+                <div>
+                  <span className="auth-badge">Free</span>
+                  <span className="auth-badge">Easy Setup</span>
+                  <span className="auth-badge">Exciting</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </BorderAnimatedContainer>

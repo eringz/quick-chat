@@ -20,6 +20,10 @@ interface ChatState {
     chats: User[];
     isUsersLoading: boolean;
     getMyChatPartners: () => Promise<void>;
+    allContacts: User[];
+    getAllContacts: () => Promise<void>;
+    selectedUser?: User | null;
+    setSelectedUser: (user: User | null) => void; 
 }
 
 
@@ -28,8 +32,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
     activeTab: "chats",
     chats: [],
     isUsersLoading: false,
+    allContacts: [],
+    selectedUser: null,
 
     setActiveTab: (tab) => set({activeTab: tab}),
+    setSelectedUser: (selectedUser) => set({ selectedUser }),
     toggleSound: () => {
         const newSoundValue = !get().isSoundEnabled;
         localStorage.setItem("isSoundEnabled", JSON.stringify(newSoundValue));
@@ -46,6 +53,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
             set({isUsersLoading: false});
         }
     },
+    getAllContacts: async () => {
+        set({isUsersLoading: true});
+        try {
+            const res = await axiosInstance.get("/messages/contacts");
+            set({ allContacts: res.data})
+        } catch (error: any) {
+            toast.error(error.response.data.message);
+            console.error("Contacts Error:", error);
+        } finally {
+            set({isUsersLoading: false});
+        }
+    }
 
 
 }));

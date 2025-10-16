@@ -40,6 +40,7 @@ interface AuthState {
     signup: (data: SignupData) => Promise<void>;
     isLoggingIn: boolean;
     login: (data: LoginData) => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 
@@ -89,6 +90,16 @@ export const useAuthStore = create<AuthState>((set) => ({
             toast.error(error.response?.data.message);
         } finally {
             set({isLoggingIn: false});
+        }
+    },
+    logout: async () => {
+        try {
+            axiosInstance.post('/auth/logout');
+            set({authUser: null});
+            toast.success("Log out successfully");
+        } catch (error) {
+            toast.error("Error logging out");
+            console.error("Logout Error:", error);
         }
     },
     

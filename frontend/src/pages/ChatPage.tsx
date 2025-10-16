@@ -1,14 +1,24 @@
 import React from "react";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 import ProfileHeader from "../components/ProfileHeader";
+import ActiveTabSwitch from "../components/ActiveTabSwitch";
+import ChatsList from "../components/ChatsList";
+import ContactsList from "../components/ContactsList";
+import { useChatStore } from "../store/useChatStore";
 
 const ChatPage: React.FC = () => {
+  const { activeTab } = useChatStore();
+
   return (
 	<div className="relative w-full max-w-6xl h-[800px]">
 	  <BorderAnimatedContainer>
       {/**Left Side */}
       <div className="w-80 bg-slate-800/50 backdrop-blur-sm">
-        <ProfileHeader></ProfileHeader>
+        <ProfileHeader />
+        <ActiveTabSwitch />
+        <div className="">
+          {activeTab === "chats" ? <ChatsList /> : <ContactsList />}
+        </div>
       </div>
 
       {/** Right Side */}

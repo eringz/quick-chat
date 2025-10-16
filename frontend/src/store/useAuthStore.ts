@@ -60,6 +60,7 @@
         isCheckingAuth: true,
         isSigningUp : false,
         isLoggingIn: false,
+        onlineUsers: [],
 
         checkAuth: async () => {
             try {

@@ -1,5 +1,6 @@
 import React from "react";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
+import ProfileHeader from "../components/ProfileHeader";
 
 const ChatPage: React.FC = () => {
   return (
@@ -7,12 +8,12 @@ const ChatPage: React.FC = () => {
 	  <BorderAnimatedContainer>
       {/**Left Side */}
       <div className="w-80 bg-slate-800/50 backdrop-blur-sm">
-          
+        <ProfileHeader></ProfileHeader>
       </div>
 
       {/** Right Side */}
       <div className="flex-1 flex flex-col bg-slate-900/50 backdrop-blur-sm justify-center text-center">
-        Have a nice day Christina. Fighting!!! hahaha
+        
       </div>
     </BorderAnimatedContainer>
 	</div>

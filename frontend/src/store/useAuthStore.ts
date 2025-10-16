@@ -90,8 +90,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         } finally {
             set({isLoggingIn: false});
         }
-    }
-
+    },
     
 }));
 

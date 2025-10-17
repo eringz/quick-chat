@@ -60,8 +60,8 @@ const LoginPage: React.FC = () => {
                     </div>
                   </div>
                 })}
-                  <button type="submit" className="auth-btn" disabled={isLoggingIn}>
-                    {isLoggingIn ? (<LoaderIcon />) : ("Login")}
+                  <button type="submit" className="auth-btn hover:animate-pulse" disabled={isLoggingIn}>
+                    {isLoggingIn ? (<LoaderIcon className="w-full h-5 text-center animate animate-spin"/>) : ("Login")}
                   </button>
               </form>
               {/** If don't have account */}
@@ -81,7 +81,7 @@ const LoginPage: React.FC = () => {
               />
               <div className="mt-6 text-center">
                 <h3 className="text-xl font-medium text-cyan-400">Let's Chat Quick</h3>
-                <div>
+                <div className="mt-4 flex justify-center gap-4">
                   <span className="auth-badge">Free</span>
                   <span className="auth-badge">Easy Setup</span>
                   <span className="auth-badge">Exciting</span>

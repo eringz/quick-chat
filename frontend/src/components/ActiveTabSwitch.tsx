@@ -7,13 +7,13 @@ const ActiveTabSwitch: React.FC = () => {
         <div className="tabs tabs-boxed p-2 m-2 bg-transparent">
             <button
                 onClick={() => setActiveTab("chats")}
-                className={`tab ${activeTab === "chats" ? "bg-cyan-500/200 text-cyan-400" : "text-slate-400"}`}
+                className={`tab ${activeTab === "chats" ? "bg-cyan-500/20 text-cyan-400" : "text-slate-400"}`}
             >
                 Chats
             </button>
             <button
                 onClick={() => setActiveTab("contacts")}
-                className={`tab ${activeTab === "contacts" ? "bg-cyan-500/200 text-cyan-400" : "text-slate-400"}`}
+                className={`tab ${activeTab === "contacts" ? "bg-cyan-500/20 text-cyan-400" : "text-slate-400"}`}
             >
                 Contacts
             </button>

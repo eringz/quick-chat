@@ -11,6 +11,17 @@ interface User {
     profilePic?: string;    
 }
 
+interface Message {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  image: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+
 // Interface for ChatState
 interface ChatState {
     isSoundEnabled: boolean;
@@ -24,6 +35,9 @@ interface ChatState {
     getAllContacts: () => Promise<void>;
     selectedUser?: User | null;
     setSelectedUser: (user: User | null) => void; 
+    messages: Message[],
+    isMessagesLoading: boolean,
+    getMessagesByUserId: (userId: string) => Promise<void>,
 }
 
 
@@ -34,14 +48,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
     isUsersLoading: false,
     allContacts: [],
     selectedUser: null,
+    messages: [],
+    isMessagesLoading: false,
 
     setActiveTab: (tab) => set({activeTab: tab}),
     setSelectedUser: (selectedUser) => set({ selectedUser }),
+    
     toggleSound: () => {
         const newSoundValue = !get().isSoundEnabled;
         localStorage.setItem("isSoundEnabled", JSON.stringify(newSoundValue));
         set({ isSoundEnabled: newSoundValue});
     },
+
     getMyChatPartners: async () => {
         set({isUsersLoading: true});
         try {
@@ -53,6 +71,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
             set({isUsersLoading: false});
         }
     },
+
     getAllContacts: async () => {
         set({isUsersLoading: true});
         try {
@@ -63,6 +82,19 @@ export const useChatStore = create<ChatState>((set, get) => ({
             console.error("Contacts Error:", error);
         } finally {
             set({isUsersLoading: false});
+        }
+    },
+
+    getMessagesByUserId: async (userId) => {
+        set({isMessagesLoading: true});
+
+        try {
+            const res = await axiosInstance.get(`/messages/${userId}`);
+            set({messages: res.data});
+        } catch (error: any) {
+            toast.error(error.response?.data.message)
+        } finally {
+            set({isMessagesLoading: false})
         }
     }
 

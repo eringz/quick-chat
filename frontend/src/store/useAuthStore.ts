@@ -1,10 +1,9 @@
     import { create } from "zustand";
     import { axiosInstance } from "../lib/axios";
     import toast from "react-hot-toast";
-
-
-
-
+    import { io, Socket } from "socket.io-client";
+    
+    const BASE_URL = import.meta.env.MODE === "development" ?  "http//localhost/5000" : "/";
 
     /**
      * Creating each Data interface 
@@ -52,15 +51,20 @@
         login: (data: LoginData) => Promise<void>;
         logout: () => Promise<void>;
         updateProfile: (data: UpdateProfileData) => Promise<void>
+        onlineUsers: string[],
+        socket: Socket | null,
+        connectSocket: () => void,
+        disconnectSocket?: () => void,
     }
 
 
-    export const useAuthStore = create<AuthState>((set) => ({
+    export const useAuthStore = create<AuthState>((set, get) => ({
         authUser: null,
         isCheckingAuth: true,
         isSigningUp : false,
         isLoggingIn: false,
         onlineUsers: [],
+        socket: null,
 
         checkAuth: async () => {
             try {
@@ -123,6 +127,21 @@
                 toast.error(error.response.data.message || "Update Failed");
                 console.error("Update Profile Error:", error);
             }
+        },
+        connectSocket: () => {
+            const { authUser } = get();
+            if (!authUser || get().socket?.connected) return; 
+
+            const socket = io(BASE_URL, {
+                withCredentials: true,
+            });
+
+            socket.connect();
+
+            socket.on("getOnlineUsers", (userIds) => set({onlineUsers: userIds}));
+        },
+        disconnectSocket: () => {
+            if (get().socket?.connected) get().socket?.disconnect;
         }
         
     }));

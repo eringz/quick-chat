@@ -87,7 +87,7 @@ const SignupPage: React.FC = () => {
 									
 									{/** Submit button */}
 									<button 
-										className="auth-btn" 
+										className="auth-btn hover:animate-pulse" 
 										type="submit" 
 										disabled={isSigningUp }
 									>

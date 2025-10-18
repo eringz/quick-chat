@@ -23,8 +23,8 @@ const NoChatHistoryPlaceholder: React.FC<NoChatHistoryPlaceholderProps> = ({name
             <div className="mx-auto h-px w-32 bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
-                {greetings.map(({greet}) => {
-                    return <button className="chat-greet-btn-opt">{greet}</button>
+                {greetings.map(({greet}, index) => {
+                    return <button key={index} className="chat-greet-btn-opt">{greet}</button>
                 })}
             </div>
         </div>

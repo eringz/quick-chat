@@ -46,8 +46,8 @@ const LoginPage: React.FC = () => {
               </div>
               {/** Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                {inputs.map(input => {
-                  return <div>
+                {inputs.map((input, index) => {
+                  return <div key={index}>
                     <div className="relative">
                       {input.icon}
                       <input 

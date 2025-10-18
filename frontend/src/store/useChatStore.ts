@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import { useAuthStore } from "./useAuthStore";
 
 
 interface User {
@@ -16,11 +17,16 @@ interface Message {
   senderId: string;
   receiverId: string;
   text: string;
-  image: string;
+  image?: string;
   createdAt: string;
   updatedAt?: string;
 }
 
+// Interface for sendMessage
+interface sendMessageData {
+    text: string;
+    image: string;
+}
 
 // Interface for ChatState
 interface ChatState {
@@ -38,6 +44,7 @@ interface ChatState {
     messages: Message[],
     isMessagesLoading: boolean,
     getMessagesByUserId: (userId: string) => Promise<void>,
+    sendMessage: (messageData: sendMessageData) => Promise<void>
 }
 
 
@@ -96,6 +103,35 @@ export const useChatStore = create<ChatState>((set, get) => ({
         } finally {
             set({isMessagesLoading: false})
         }
+    },
+
+    sendMessage: async (messageData) => {
+        const { selectedUser, messages } = get();
+        const { authUser } = useAuthStore.getState();
+        
+        const tempId = `temp-${Date.now()}`;
+
+        const optimisticMessage = {
+            _id: tempId,
+            senderId: authUser!._id,
+            receiverId: selectedUser!._id,
+            text: messageData.text,
+            image: messageData.image,
+            createdAt: new Date().toISOString(),
+            isOptimimistic: true, // flag to identify optimistic message
+        }
+
+        // Immediate update of UI by adding the message
+        set({messages: [...messages, optimisticMessage]});
+
+        try {
+            const res = await axiosInstance.post(`/messages/send/${selectedUser!._id}`, messageData);
+            set({messages: messages.concat(res.data)})
+        } catch (error: any) {
+            set({messages: messages});
+            toast.error(error.response?.data?.message || "Something went wrong");
+        }     
+
     }
 
 

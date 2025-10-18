@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import cloudinary from "../lib/cloudinary.js";
 import Message from '../models/Message.js';
 
 export const getAllContacts = async (req, res) => {
@@ -45,10 +46,19 @@ export const sendMessage = async (req, res) => {
         const receiverExists = await User.exists({_id: receiverId});
         if (!receiverExists) return res.status(400).json({message: 'Receiver not found'});
 
-        let imageUrl;
+        let imageUrl = "";
         if (image) {
+            const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+
+
+            if (!/^data:image\/[a-z]+;base64,/.test(image)) {
+                return res.status(400).json({ message: "Invalid image format" });
+            }
+
+
             // upload base64 image to cloudinary
-            const uploadResponse = await cloudinary.uploader.upload(image);
+            const uploadResponse = await cloudinary.uploader.upload(`data:image/png;base64,${base64Data}`);
+            
             imageUrl = uploadResponse.secure_url;
         }
 

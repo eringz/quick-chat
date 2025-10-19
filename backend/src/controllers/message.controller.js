@@ -55,7 +55,6 @@ export const sendMessage = async (req, res) => {
                 return res.status(400).json({ message: "Invalid image format" });
             }
 
-
             // upload base64 image to cloudinary
             const uploadResponse = await cloudinary.uploader.upload(`data:image/png;base64,${base64Data}`);
             

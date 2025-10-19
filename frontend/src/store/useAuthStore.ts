@@ -3,7 +3,7 @@
     import toast from "react-hot-toast";
     import { io, Socket } from "socket.io-client";
     
-    const BASE_URL = import.meta.env.MODE === "development" ?  "http//localhost/5000" : "/";
+    const BASE_URL = import.meta.env.MODE === "development" ?  "http://localhost/5000" : "/";
 
     /**
      * Creating each Data interface 
@@ -86,6 +86,7 @@
 
                 // Let's make some Toast!
                 toast.success(`${res.data.firstName}'s account created successfully!`);
+                get().connectSocket();
 
                 } catch (error: any) {
                 toast.error(error.response?.data.message || "Sign up failed");
@@ -102,6 +103,7 @@
 
                 // Let's make some toast!
                 toast.success("Log in successfully!");
+                get().connectSocket();
             } catch (error: any) {
                 toast.error(error.response?.data.message);
             } finally {
@@ -113,6 +115,7 @@
                 axiosInstance.post('/auth/logout');
                 set({authUser: null});
                 toast.success("Log out successfully");
+                // get().disconnectSocket();
             } catch (error) {
                 toast.error("Error logging out");
                 console.error("Logout Error:", error);
@@ -141,7 +144,7 @@
             socket.on("getOnlineUsers", (userIds) => set({onlineUsers: userIds}));
         },
         disconnectSocket: () => {
-            if (get().socket?.connected) get().socket?.disconnect;
+            if (get().socket?.connected) get().socket!.disconnect();
         }
         
     }));

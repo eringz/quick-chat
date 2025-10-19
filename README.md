@@ -45,7 +45,9 @@ git clone https://github.com/your-username/quick-chat.git
 cd quick-chat
 Install dependencies:
 
-```bash
+```
+
+bash
 Copy code
 npm install
 Set up environment variables (.env):

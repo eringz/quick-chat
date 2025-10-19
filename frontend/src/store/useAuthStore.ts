@@ -3,7 +3,12 @@
     import toast from "react-hot-toast";
     import { io, Socket } from "socket.io-client";
     
-    const BASE_URL = import.meta.env.MODE === "development" ?  "http://localhost/5000" : "/";
+    // const BASE_URL = import.meta.env.MODE === "development" ?  "http://localhost/5000" : "/";
+    const BASE_URL =
+    import.meta.env.MODE === "development"
+    ? "http://localhost:5000"
+    : "/";
+
 
     /**
      * Creating each Data interface 
@@ -54,7 +59,7 @@
         onlineUsers: string[],
         socket: Socket | null,
         connectSocket: () => void,
-        disconnectSocket?: () => void,
+        disconnectSocket: () => void,
     }
 
 
@@ -63,13 +68,14 @@
         isCheckingAuth: true,
         isSigningUp : false,
         isLoggingIn: false,
-        onlineUsers: [],
         socket: null,
+        onlineUsers: [],
 
         checkAuth: async () => {
             try {
                 const res = await axiosInstance.get('/auth/check');
                 set({authUser: res.data});
+                get().connectSocket();
             } catch (error) {
                 console.error("Error in authCheck:", error);
                 set({authUser: null});
@@ -104,6 +110,7 @@
                 // Let's make some toast!
                 toast.success("Log in successfully!");
                 get().connectSocket();
+                console.log(get().connectSocket())
             } catch (error: any) {
                 toast.error(error.response?.data.message);
             } finally {
@@ -115,7 +122,7 @@
                 axiosInstance.post('/auth/logout');
                 set({authUser: null});
                 toast.success("Log out successfully");
-                // get().disconnectSocket();
+                get().disconnectSocket();
             } catch (error) {
                 toast.error("Error logging out");
                 console.error("Logout Error:", error);
@@ -140,6 +147,7 @@
             });
 
             socket.connect();
+            set({socket})
 
             socket.on("getOnlineUsers", (userIds) => set({onlineUsers: userIds}));
         },

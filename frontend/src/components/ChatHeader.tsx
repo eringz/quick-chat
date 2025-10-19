@@ -8,10 +8,6 @@ const ChatHeader: React.FC = () => {
     const { onlineUsers } = useAuthStore();
     const isOnline  = onlineUsers.includes(selectedUser!._id);
 
-    console.log("online?: ", isOnline);
-    console.log("onlineUsers?: ", onlineUsers);
-    console.log("selectedUserId: ", selectedUser!._id);
-
     useEffect(() => {
         const handleEscKey = (event: KeyboardEvent) => {
             if (event.key === "Escape") setSelectedUser(null);
@@ -31,7 +27,7 @@ const ChatHeader: React.FC = () => {
                 </div>
                 <div>
                     <h3>{selectedUser?.firstName} {selectedUser?.lastName}</h3>
-                    <p className="text-slate-400 text-sm">Online</p>
+                    <p className="text-slate-400 text-sm">{isOnline ? "Online" : "Offline"}</p>
                 </div>
             </div>
             <button onClick={() => setSelectedUser(null)}>

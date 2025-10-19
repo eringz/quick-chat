@@ -30,8 +30,7 @@ const ChatsList: React.FC = () => {
                                 <img src={chat?.profilePic || "/avatar.png"} alt={chat.firstName} />
                             </div>
                         </div>
-                        {/* <h4 className="text-slate-200 font-medium truncate">{chat._id} {chat.firstName} {chat.lastName}</h4> */}
-                        <h4 className="text-slate-200 font-medium truncate">{onlineUsers} </h4>
+                        <h4 className="text-slate-200 font-medium truncate">{chat.firstName} {chat.lastName}</h4>
                     </div>
                 </div>
             })}

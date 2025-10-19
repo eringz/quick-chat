@@ -4,6 +4,8 @@ import { ENV } from '../lib/env.js';
 
 
 export const socketAuthMiddleware = async (socket, next) => {
+    console.log("Socket handshake headers:", socket.handshake.headers.cookie);
+
     try {
         // extract token from http-only cookies
         const token = socket.handshake.headers.cookie?.split('; ').find(row => row.startsWith('jwt='))?.split('=')[1];
@@ -21,7 +23,7 @@ export const socketAuthMiddleware = async (socket, next) => {
         }
 
         // find the user from db
-        const user = User.findById(decoded.userId).select('-password');
+        const user = await User.findById(decoded.userId).select('-password');
         if (!user) {
             console.log('Scoket connection rejected: User not found');
             return next(new Error('User not found'));

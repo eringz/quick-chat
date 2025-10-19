@@ -26,7 +26,7 @@ const MessageInput: React.FC = () => {
         setText("");
         setImagePreview("");
 
-        console.log("Sending message data:", { text, image: imagePreview });
+        // console.log("Sending message data:", { text, image: imagePreview });
 
 
         if (fileInputRef.current) fileInputRef.current.value = ""; 

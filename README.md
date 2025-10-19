@@ -12,17 +12,17 @@ A real-time chat application built with **Node.js**, **Express**, **MongoDB**, a
 - MongoDB for data persistence
 
 ## API Endpoints
-GET /contacts – Get all users except logged-in user
-
+POST /signup – Create new user
 POST /login – Authenticate user
+POST /logout - Logout user
+PUT /update-profile - update profile
 
-POST /register – Create new user
-
+GET /contact - get all contact users
 POST /messages – Send a new message
-
 GET /messages/:conversationId – Get messages in a conversation
+POST /send/:id - send a message to a user
 
-Technologies
+## Technologies
 Backend: Node.js, Express
 
 Database: MongoDB, Mongoose

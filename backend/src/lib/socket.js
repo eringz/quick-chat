@@ -3,6 +3,7 @@ import http from 'http';
 import express from 'express';
 import { ENV } from './env.js';
 import { socketAuthMiddleware } from '../middleware/socket.auth.middleware.js';
+import User from '../models/User.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -40,11 +41,16 @@ io.on('connection', socket => {
     // io.emit('getOnlineUsers', Array.from(userSocketMap.keys()));
 
     // listen for events from client side
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
         console.log('A user disconnected', socket.user.firstName);
+        console.log('A user disconnected', socket.userId);
+        await User.findByIdAndUpdate(socket.userId, {
+            lastSeen: new Date(),
+        });
+
         delete userSocketMap[userId];
         io.emit('getOnlineUsers', Object.keys(userSocketMap));
-        const sockets = userSocketMap.get(userId);
+        // const sockets = userSocketMap.get(userId);
         // if (sockets) {
         //     sockets.delete(socket.id);
         //     if (sockets.size === 0) userSocketMap.delete(user.id);

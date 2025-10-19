@@ -9,6 +9,7 @@ interface User {
     lastName: string;
     email: string;
     profilePic?: string;    
+    lastSeen: Date;
 }
 
 interface Message {

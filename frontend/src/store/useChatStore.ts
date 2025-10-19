@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
 
-
 interface User {
     _id: string;
     firstName: string;
@@ -41,10 +40,12 @@ interface ChatState {
     getAllContacts: () => Promise<void>;
     selectedUser?: User | null;
     setSelectedUser: (user: User | null) => void; 
-    messages: Message[],
-    isMessagesLoading: boolean,
-    getMessagesByUserId: (userId: string) => Promise<void>,
-    sendMessage: (messageData: sendMessageData) => Promise<void>
+    messages: Message[];
+    isMessagesLoading: boolean;
+    getMessagesByUserId: (userId: string) => Promise<void>;
+    sendMessage: (messageData: sendMessageData) => Promise<void>;
+    subscribeToMessages: () => void;
+    unsubscribeToMessages: () => void;
 }
 
 
@@ -132,7 +133,33 @@ export const useChatStore = create<ChatState>((set, get) => ({
             toast.error(error.response?.data?.message || "Something went wrong");
         }     
 
-    }
+    },
 
+    subscribeToMessages: () => {
+        const { selectedUser, isSoundEnabled } = get();
+        if (!selectedUser) return;
+
+        const socket = useAuthStore.getState().socket;
+
+        socket!.on("newMessage", (newMessage) => {
+            const isMessageFromSelectedUser = newMessage.senderId === selectedUser._id;
+            if (!isMessageFromSelectedUser) return;
+
+            const currentMessages = get().messages;
+
+            set({messages: [...currentMessages, newMessage]});
+
+            if (isSoundEnabled) {
+                const notificationSound = new Audio("/sounds/notification.mp3");
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+        })
+    },
+
+    unsubscribeToMessages: () => {
+        const socket = useAuthStore.getState().socket;
+        socket!.off("newMessage");
+    }
 
 }));

@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import cloudinary from "../lib/cloudinary.js";
 import Message from '../models/Message.js';
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getAllContacts = async (req, res) => {
     try {
@@ -71,7 +72,10 @@ export const sendMessage = async (req, res) => {
         await newMessage.save();
 
         // todo: send message in realtime if user is online using socket.io
-
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit('newMessage', newMessage);
+        }
 
         res.status(201).json(newMessage);
 

@@ -4,7 +4,7 @@ import { ENV } from '../lib/env.js';
 
 
 export const socketAuthMiddleware = async (socket, next) => {
-    console.log("Socket handshake headers:", socket.handshake.headers.cookie);
+    // console.log("Socket handshake headers:", socket.handshake.headers.cookie);
 
     try {
         // extract token from http-only cookies

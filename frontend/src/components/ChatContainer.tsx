@@ -9,15 +9,18 @@ import MessageLoadingSkeleton from "./MessageLoadingSkeleton";
 
 
 const ChatContainer: React.FC = () => {
-    const { getMessagesByUserId, selectedUser, messages, isMessagesLoading } = useChatStore();
+    const { getMessagesByUserId, selectedUser, messages, isMessagesLoading, subscribeToMessages, unsubscribeToMessages } = useChatStore();
     const { authUser } = useAuthStore();
 
     const messageEndRef = useRef<HTMLDivElement | null>(null);
     
     useEffect(() => {
         if (selectedUser?._id) {
-            getMessagesByUserId(selectedUser._id );
+            getMessagesByUserId(selectedUser._id ); 
+            subscribeToMessages();
         }
+
+        return () => unsubscribeToMessages();
     }, [getMessagesByUserId, selectedUser]);
 
     useEffect(() => {
@@ -25,6 +28,8 @@ const ChatContainer: React.FC = () => {
             messageEndRef.current.scrollIntoView({behavior: "smooth"});
         }
     }, [messages]);
+
+
     return (
         <>
             <ChatHeader />

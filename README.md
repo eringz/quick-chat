@@ -51,9 +51,9 @@ Install dependencies:
 
 npm install
 ```
-3. Environment setup 
+3. Set up environment variables (.env):
 ```bash
-Set up environment variables (.env):
+
 PORT=5000
 MONGO_URI=your_mongodb_uri
 CLOUDINARY_CLOUD_NAME=your_cloud_name

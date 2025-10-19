@@ -1,4 +1,4 @@
-# Quick-Chat
+# # ![BioPro Logo](./quick-chat.png) Quick-Chat
 
 A real-time chat application built with **Node.js**, **Express**, **MongoDB**, and **Socket.io**, featuring cloud media uploads via **Cloudinary**. Designed for fast, responsive communication with multiple users.
 

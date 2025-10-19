@@ -46,14 +46,14 @@ cd quick-chat
 Install dependencies:
 
 ```
-2. NPM Install and environment variables set up
+2. NPM Install 
 ```bash
-Copy code
-npm install
-Set up environment variables (.env):
 
-ini
-Copy code
+npm install
+```
+3. Environment setup 
+```bash
+Set up environment variables (.env):
 PORT=5000
 MONGO_URI=your_mongodb_uri
 CLOUDINARY_CLOUD_NAME=your_cloud_name
@@ -61,10 +61,7 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 JWT_SECRET=your_jwt_secret
 Start the server:
+```
 
-bash
-Copy code
-npm start
-The app will run on http://localhost:5000.
 
 

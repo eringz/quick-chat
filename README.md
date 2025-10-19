@@ -46,8 +46,8 @@ cd quick-chat
 Install dependencies:
 
 ```
-
-bash
+2. NPM Install and environment variables set up
+```bash
 Copy code
 npm install
 Set up environment variables (.env):
